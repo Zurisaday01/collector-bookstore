@@ -1,0 +1,132 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model User {
+    id             String         @id @default(uuid())
+    clerkId        String
+    name           String
+    email          String
+    image          String?
+    isAdmin        Boolean        @default(false)
+    wishlists      Wishlist[]
+    shopping_carts ShoppingCart[]
+    orders         Order[]
+}
+
+model Author {
+    id    String  @id @default(uuid())
+    name  String
+    books Book[]
+    image String? // Image URL field
+}
+
+model Book {
+    id           String         @id @default(uuid())
+    title        String
+    authors      Author[]
+    description  String?
+    bestseller   Boolean        @default(false)
+    newRelease   Boolean        @default(false)
+    isFeatured   Boolean        @default(false)
+    formats      Format[]
+    genres       Genre[]
+    image        String? // Image URL field
+    WishlistItem WishlistItem[]
+    CartItem     CartItem[]
+    OrderItem    OrderItem[]
+}
+
+model Format {
+    id              String   @id @default(uuid())
+    name            String   @db.VarChar(20)
+    price           Decimal  @db.Decimal(10, 2)
+    discount        Decimal? @db.Decimal(5, 2)
+    quantityInStock Int
+    books           Book[] // A one-to-many relationship with the "Book" model
+}
+
+model Genre {
+    id    String @id @default(uuid())
+    name  String
+    books Book[]
+}
+
+model Wishlist {
+    id            String         @id @default(uuid())
+    user          User           @relation(fields: [userId], references: [id])
+    userId        String
+    wishlistItems WishlistItem[]
+
+    @@index([userId])
+}
+
+model WishlistItem {
+    id         String   @id @default(uuid())
+    wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
+    wishlistId String
+    book       Book     @relation(fields: [bookId], references: [id])
+    bookId     String
+    quantity   Int
+    price      Decimal  @db.Decimal(10, 2)
+    addedDate  DateTime
+
+    @@index([wishlistId])
+    @@index([bookId])
+}
+
+model ShoppingCart {
+    id        String     @id @default(uuid())
+    user      User       @relation(fields: [userId], references: [id])
+    userId    String
+    cartItems CartItem[]
+
+    @@index([userId])
+}
+
+model CartItem {
+    id        String       @id @default(uuid())
+    cart      ShoppingCart @relation(fields: [cartId], references: [id])
+    cartId    String
+    book      Book         @relation(fields: [bookId], references: [id])
+    bookId    String
+    quantity  Int
+    price     Decimal      @db.Decimal(10, 2)
+    addedDate DateTime
+
+    @@index([cartId])
+    @@index([bookId])
+}
+
+model Order {
+    id         String      @id @default(uuid())
+    user       User        @relation(fields: [userId], references: [id])
+    userId     String
+    total      Decimal     @db.Decimal(10, 2)
+    phone      String      @default("")
+    address    String      @default("")
+    orderItems OrderItem[]
+    createdAt  DateTime    @default(now())
+    paidAt     DateTime?
+
+    @@index([userId])
+}
+
+model OrderItem {
+    id       String  @id @default(uuid())
+    order    Order   @relation(fields: [orderId], references: [id])
+    orderId  String
+    book     Book    @relation(fields: [bookId], references: [id])
+    bookId   String
+    quantity Int
+    price    Decimal @db.Decimal(10, 2)
+
+    @@index([orderId])
+    @@index([bookId])
+}
