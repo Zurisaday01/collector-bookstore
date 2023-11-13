@@ -48,7 +48,7 @@ const page = () => {
 						debut novelist.
 					</p>
 					<p>
-						When the investigative reporter Quentin Jones's story about covert
+						When the investigative reporter Quentin Jones story about covert
 						military interrogation practices in the Desert War is buried, he is
 						spurred to dig deeper, and he unravels a trail that leads to VIRTUE:
 						cutting-edge technology that simulates reality during interrogation.
@@ -56,11 +56,11 @@ const page = () => {
 					<p>
 						As the shadowy labyrinths of governmental corruption unfurl and
 						tighten around him, unnerving links to his protégé Bruce--who, like
-						Joseph Conrad's Kurtz, disappeared into the war several years
+						Joseph Conra Kurtz, disappeared into the war several years
 						earlier--keep emerging.
 					</p>
 					<p>
-						Greg Jackson's The Dimensions of a Cave is a virtuoso journey into
+						Greg Jackson The Dimensions of a Cave is a virtuoso journey into
 						networks of power, our embroilment with new technologies, and the
 						dangers of corruption. It explores our drive toward war, violence,
 						and venality, placing humanity and idealism under the spotlight.
