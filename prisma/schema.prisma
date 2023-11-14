@@ -24,7 +24,7 @@ model Author {
     id    String  @id @default(uuid())
     name  String
     books Book[]
-    image String? // Image URL field
+    image String?
 }
 
 model Book {

@@ -1,11 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-	CaretSortIcon,
-	ChevronDownIcon,
-	DotsHorizontalIcon,
-} from '@radix-ui/react-icons';
+import { ChevronDownIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -40,6 +36,8 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
+import { Genre, Book } from '@/lib/types';
+
 const data: Genre[] = [
 	{
 		id: 'INV0013232uhwdAD',
@@ -54,7 +52,58 @@ const data: Genre[] = [
 	{
 		id: 'INV0013232uhwdAD',
 		name: 'Romance',
-		books: [{ book: 1 }, { book: 1 }],
+		books: [
+			{
+				id: 'swe23ewqeqwe',
+				title: 'A Light in the Flame',
+				authors: [
+					{
+						id: 'rewrwe3e32',
+						name: 'Jennifer L. Armentrout',
+						image: 'example',
+						books: [],
+					},
+				],
+				bestseller: false,
+				newRelease: false,
+				isFeatured: true,
+				formats: [
+					{ name: 'Hardcover', price: 20, discount: 0.3, quantityInStock: 10 },
+				],
+				genres: [
+					{ id: 'dsdasd', name: 'Fantasy', books: [] },
+					{ id: 'dsdasd', name: 'Romance', books: [] },
+					{ id: 'dsdasd', name: 'Fiction', books: [] },
+				],
+				image:
+					'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1685797258i/172133046.jpg',
+			},
+			{
+				id: 'swe23ewqeqwe',
+				title: 'A Light in the Flame',
+				authors: [
+					{
+						id: 'rewrwe3e32',
+						name: 'Jennifer L. Armentrout',
+						image: 'example',
+						books: [],
+					},
+				],
+				bestseller: true,
+				newRelease: false,
+				isFeatured: true,
+				formats: [
+					{ name: 'Hardcover', price: 20, discount: 0.3, quantityInStock: 10 },
+					{ name: 'Paperback', price: 30, discount: 0.4, quantityInStock: 8 },
+				],
+				genres: [
+					{ id: 'dsdasd', name: 'Romance', books: [] },
+					{ id: 'dsdasd', name: 'Fiction', books: [] },
+				],
+				image:
+					'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1685797258i/172133046.jpg',
+			},
+		],
 	},
 	{
 		id: 'INV0013232uhwdAD',
@@ -62,12 +111,6 @@ const data: Genre[] = [
 		books: [],
 	},
 ];
-
-export type Genre = {
-	id: string;
-	name: string;
-	books: [];
-};
 
 export const columns: ColumnDef<Genre>[] = [
 	{
@@ -97,11 +140,14 @@ export const columns: ColumnDef<Genre>[] = [
 	{
 		accessorKey: 'books',
 		header: '# Books',
-		cell: ({ row }) => (
-			<div>
-				<span>{row.getValue('books')?.length}</span> books
-			</div>
-		),
+		cell: ({ row }) => {
+			const books: Book[] | [] = row.getValue('books');
+			return (
+				<div>
+					<span>{books?.length}</span> books
+				</div>
+			);
+		},
 	},
 	{
 		id: 'actions',

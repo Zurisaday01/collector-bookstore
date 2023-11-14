@@ -1,3 +1,5 @@
+'use client';
+
 import GenresTable from '@/components/tables/GenresTable';
 import { Button } from '@/components/ui/button';
 

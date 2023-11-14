@@ -38,8 +38,8 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import Image from 'next/image';
-import { Badge } from '../ui/badge';
+
+import { User, OrderItems, Order } from '@/lib/types';
 
 const data: Order[] = [
 	{
@@ -48,6 +48,8 @@ const data: Order[] = [
 			id: 'user123',
 			name: 'Alice Johnson',
 			email: 'alice.johnson@example.com',
+			image: 'example',
+			isAdmin: true,
 		},
 		total: 49.99,
 		phone: '555-123-4567',
@@ -83,6 +85,8 @@ const data: Order[] = [
 			id: 'user456',
 			name: 'Bob Smith',
 			email: 'bob.smith@example.com',
+			image: 'example',
+			isAdmin: false,
 		},
 		total: 35.75,
 		phone: '555-987-6543',
@@ -108,6 +112,8 @@ const data: Order[] = [
 			id: 'user789',
 			name: 'Charlie Brown',
 			email: 'charlie.brown@example.com',
+			image: 'example',
+			isAdmin: false,
 		},
 		total: 55.25,
 		phone: '555-555-5555',
@@ -143,6 +149,8 @@ const data: Order[] = [
 			id: 'user246',
 			name: 'David Wilson',
 			email: 'david.wilson@example.com',
+			image: 'example',
+			isAdmin: false,
 		},
 		total: 42.0,
 		phone: '555-111-2222',
@@ -163,30 +171,6 @@ const data: Order[] = [
 		paidAt: new Date('2023-11-08T09:00:00.000Z'),
 	},
 ];
-
-interface Order {
-	id: string;
-	user: {
-		id: string;
-		name: string;
-		email: string;
-	};
-	total: number;
-	phone: string;
-	address: string;
-	orderItems: {
-		id: string;
-		book: {
-			id: string;
-			title: string;
-			author: string;
-		};
-		quantity: number;
-		price: number;
-	}[];
-	createdAt: Date;
-	paidAt: Date | null;
-}
 
 export const columns: ColumnDef<Order>[] = [
 	{
@@ -216,7 +200,10 @@ export const columns: ColumnDef<Order>[] = [
 	{
 		accessorKey: 'user',
 		header: 'User',
-		cell: ({ row }) => <div>{row.getValue('user')?.name}</div>,
+		cell: ({ row }) => {
+			const user: User = row.getValue('user');
+			return <div>{user?.name}</div>;
+		},
 	},
 	{
 		accessorKey: 'phone',
@@ -231,12 +218,18 @@ export const columns: ColumnDef<Order>[] = [
 	{
 		accessorKey: 'orderItems',
 		header: '# Items',
-		cell: ({ row }) => <div>{row.getValue('orderItems')?.length}</div>,
+		cell: ({ row }) => {
+			const orderItems: OrderItems[] | [] = row.getValue('orderItems');
+			return <div>{orderItems?.length}</div>;
+		},
 	},
 	{
 		accessorKey: 'total',
 		header: 'Total',
-		cell: ({ row }) => <div>${row.getValue('total')?.toFixed(2)}</div>,
+		cell: ({ row }) => {
+			const total: number = row.getValue('total');
+			return <div>${total.toFixed(2)}</div>;
+		},
 	},
 	{
 		accessorKey: 'createdAt',

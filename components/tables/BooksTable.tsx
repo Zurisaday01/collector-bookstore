@@ -55,11 +55,20 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
+import { Genre, Book, Author, Format } from '@/lib/types';
+
 const data: Book[] = [
 	{
 		id: 'swe23ewqeqwe',
 		title: 'A Light in the Flame',
-		authors: [{ id: 'rewrwe3e32', name: 'Jennifer L. Armentrout' }],
+		authors: [
+			{
+				id: 'rewrwe3e32',
+				name: 'Jennifer L. Armentrout',
+				image: 'example',
+				books: [],
+			},
+		],
 		bestseller: false,
 		newRelease: false,
 		isFeatured: true,
@@ -67,9 +76,9 @@ const data: Book[] = [
 			{ name: 'Hardcover', price: 20, discount: 0.3, quantityInStock: 10 },
 		],
 		genres: [
-			{ id: 'dsdasd', name: 'Fantasy' },
-			{ id: 'dsdasd', name: 'Romance' },
-			{ id: 'dsdasd', name: 'Fiction' },
+			{ id: 'dsdasd', name: 'Fantasy', books: [] },
+			{ id: 'dsdasd', name: 'Romance', books: [] },
+			{ id: 'dsdasd', name: 'Fiction', books: [] },
 		],
 		image:
 			'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1685797258i/172133046.jpg',
@@ -77,7 +86,14 @@ const data: Book[] = [
 	{
 		id: 'swe23ewqeqwe',
 		title: 'A Light in the Flame',
-		authors: [{ id: 'rewrwe3e32', name: 'Jennifer L. Armentrout' }],
+		authors: [
+			{
+				id: 'rewrwe3e32',
+				name: 'Jennifer L. Armentrout',
+				image: 'example',
+				books: [],
+			},
+		],
 		bestseller: true,
 		newRelease: false,
 		isFeatured: true,
@@ -86,8 +102,8 @@ const data: Book[] = [
 			{ name: 'Paperback', price: 30, discount: 0.4, quantityInStock: 8 },
 		],
 		genres: [
-			{ id: 'dsdasd', name: 'Romance' },
-			{ id: 'dsdasd', name: 'Fiction' },
+			{ id: 'dsdasd', name: 'Romance', books: [] },
+			{ id: 'dsdasd', name: 'Fiction', books: [] },
 		],
 		image:
 			'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1685797258i/172133046.jpg',
@@ -96,7 +112,14 @@ const data: Book[] = [
 	{
 		id: 'swe23ewqeqwe',
 		title: 'A Light in the Flame',
-		authors: [{ id: 'rewrwe3e32', name: 'Jennifer L. Armentrout' }],
+		authors: [
+			{
+				id: 'rewrwe3e32',
+				name: 'Jennifer L. Armentrout',
+				image: 'example',
+				books: [],
+			},
+		],
 		bestseller: true,
 		newRelease: false,
 		isFeatured: true,
@@ -104,27 +127,14 @@ const data: Book[] = [
 			{ name: 'Hardcover', price: 20, discount: 0.3, quantityInStock: 10 },
 		],
 		genres: [
-			{ id: 'dsdasd', name: 'Fantasy' },
-			{ id: 'dsdasd', name: 'Romance' },
-			{ id: 'dsdasd', name: 'Fiction' },
+			{ id: 'dsdasd', name: 'Fantasy', books: [] },
+			{ id: 'dsdasd', name: 'Romance', books: [] },
+			{ id: 'dsdasd', name: 'Fiction', books: [] },
 		],
 		image:
 			'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1685797258i/172133046.jpg',
 	},
 ];
-
-export type Book = {
-	id: string;
-	title: string;
-	authors: object[];
-	description?: string;
-	bestseller: boolean;
-	newRelease: boolean;
-	isFeatured: boolean;
-	formats: object[];
-	genres: { id: string; name: string }[];
-	image: string;
-};
 
 export const columns: ColumnDef<Book>[] = [
 	{
@@ -165,23 +175,21 @@ export const columns: ColumnDef<Book>[] = [
 	{
 		accessorKey: 'authors',
 		header: 'Authors',
-		cell: ({ row }) => (
-			<div>
-				{row.getValue('authors').map(author => author.name).length > 1
-					? row
-							.getValue('authors')
-							.map(author => author.name)
-							.slice(0, -1)
-							.join(', ') +
-					  ' and ' +
-					  row
-							.getValue('authors')
-							.map(author => author.name)
-							.slice(-1)
-					: row.getValue('authors').map(author => author.name)[0] ||
-					  'No authors'}
-			</div>
-		),
+		cell: ({ row }) => {
+			const authors: Author[] | [] = row.getValue('authors');
+			return (
+				<div>
+					{authors?.map((author: Author) => author.name).length > 1
+						? authors
+								?.map((author: Author) => author.name)
+								.slice(0, -1)
+								.join(', ') +
+						  ' and ' +
+						  authors?.map((author: Author) => author.name).slice(-1)
+						: (row.getValue('authors') as Author[])[0]?.name || 'No authors'}
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: 'bestseller',
@@ -225,68 +233,63 @@ export const columns: ColumnDef<Book>[] = [
 	{
 		accessorKey: 'formats',
 		header: 'Formats',
-		cell: ({ row }) => (
-			<div>
-				{' '}
-				{row.getValue('formats').map(author => author.name).length > 1
-					? row
-							.getValue('formats')
-							.map(author => author.name)
-							.slice(0, -1)
-							.join(', ') +
-					  ' and ' +
-					  row
-							.getValue('formats')
-							.map(author => author.name)
-							.slice(-1)
-					: row.getValue('formats').map(author => author.name)[0] ||
-					  'No formats'}
-			</div>
-		),
+		cell: ({ row }) => {
+			const formats: Format[] | [] = row.getValue('formats');
+			return (
+				<div>
+					{' '}
+					{formats?.map((format: Format) => format.name).length > 1
+						? formats
+								?.map((format: Format) => format.name)
+								.slice(0, -1)
+								.join(', ') +
+						  ' and ' +
+						  formats?.map((format: Format) => format.name).slice(-1)
+						: formats?.map((format: Format) => format.name)[0] || 'No formats'}
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: 'price',
 		header: 'Price(s)',
-		cell: ({ row }) => (
-			<div>
-				{row
-					.getValue('formats')
-					.map(format => '$' + format.price)
-					.join(', ')}
-			</div>
-		),
+		cell: ({ row }) => {
+			const formats: Format[] | [] = row.getValue('formats');
+			return <div>{formats?.map(format => '$' + format.price).join(', ')}</div>;
+		},
 	},
 	{
 		accessorKey: 'discount',
 		header: 'Discount',
-		cell: ({ row }) => (
-			<div>
-				{row
-					.getValue('formats')
-					.map(format => 100 * format.discount + '%')
-					.join(', ')}
-			</div>
-		),
+		cell: ({ row }) => {
+			const formats: Format[] | [] = row.getValue('formats');
+			return (
+				<div>
+					{formats
+						?.map((format: Format) => 100 * +format.discount + '%')
+						.join(', ')}
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: 'genres',
 		header: 'Genres',
-		cell: ({ row }) => (
-			<div>
-				{row.getValue('genres').map(author => author.name).length > 1
-					? row
-							.getValue('genres')
-							.map(author => author.name)
-							.slice(0, -1)
-							.join(', ') +
-					  ' and ' +
-					  row
-							.getValue('genres')
-							.map(author => author.name)
-							.slice(-1)
-					: row.getValue('genres').map(author => author.name)[0] || 'No genres'}
-			</div>
-		),
+		cell: ({ row }) => {
+			const genres: Genre[] | [] = row.getValue('genres');
+			return (
+				<div>
+					{genres?.map((genre: Genre) => genre.name).length > 1
+						? genres
+								?.map((genre: Genre) => genre.name)
+								.slice(0, -1)
+								.join(', ') +
+						  ' and ' +
+						  genres?.map((genre: Genre) => genre.name).slice(-1)
+						: genres?.map((genre: Genre) => genre.name)[0] || 'No genres'}
+				</div>
+			);
+		},
 	},
 	{
 		id: 'actions',

@@ -52,6 +52,8 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 
+import { User } from '@/lib/types';
+
 const data: User[] = [
 	{
 		id: 'INV0013232uhwdAD',
@@ -86,14 +88,6 @@ const data: User[] = [
 		isAdmin: true,
 	},
 ];
-
-export type User = {
-	id: string;
-	name: string;
-	email: string;
-	image: string;
-	isAdmin: boolean;
-};
 
 export const columns: ColumnDef<User>[] = [
 	{
