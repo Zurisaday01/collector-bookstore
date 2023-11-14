@@ -54,12 +54,6 @@ const page = () => {
 						cutting-edge technology that simulates reality during interrogation.
 					</p>
 					<p>
-						As the shadowy labyrinths of governmental corruption unfurl and
-						tighten around him, unnerving links to his protégé Bruce--who, like
-						Joseph Conra Kurtz, disappeared into the war several years
-						earlier--keep emerging.
-					</p>
-					<p>
 						Greg Jackson The Dimensions of a Cave is a virtuoso journey into
 						networks of power, our embroilment with new technologies, and the
 						dangers of corruption. It explores our drive toward war, violence,
