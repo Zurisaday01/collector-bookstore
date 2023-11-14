@@ -58,7 +58,7 @@ export const POST = async (req: Request) => {
 			evt.data || {};
 
 		try {
-			await fetch('/api/users', {
+			await fetch('https://collector-bookstore.vercel.app/api/users', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
