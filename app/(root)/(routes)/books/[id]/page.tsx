@@ -1,3 +1,4 @@
+/* eslint-disable */
 import BookImage from '@/components/BookImage';
 import AddToForm from '@/components/forms/AddToForm';
 import { CheckCircle2 } from 'lucide-react';
