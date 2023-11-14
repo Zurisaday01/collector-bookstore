@@ -1,3 +1,4 @@
+'use client';
 import FormatsTable from '@/components/tables/FormatsTable';
 
 const formats = [
