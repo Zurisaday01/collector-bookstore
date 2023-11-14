@@ -74,10 +74,9 @@ export const POST = async (req: Request) => {
 				}
 			);
 
-			return NextResponse.json(
-				{ message: `User created ${newUser}` },
-				{ status: 201 }
-			);
+			console.log('NEW', newUser);
+
+			return NextResponse.json({ message: 'User created' }, { status: 201 });
 		} catch (err) {
 			return NextResponse.json(
 				{ message: `Internal Server Error ${err}` },
