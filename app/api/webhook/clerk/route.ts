@@ -59,11 +59,17 @@ export const POST = async (req: Request) => {
 			evt.data || {};
 
 		try {
-			await createUser({
-				clerkId: id,
-				name: `${first_name} ${last_name}`,
-				email: email_addresses[0].email_address,
-				image: image_url,
+			await fetch('/api/users', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					clerkId: id,
+					name: `${first_name} ${last_name}`,
+					email: email_addresses[0].email_address,
+					image: image_url,
+				}),
 			});
 
 			return NextResponse.json({ message: 'User created' }, { status: 201 });

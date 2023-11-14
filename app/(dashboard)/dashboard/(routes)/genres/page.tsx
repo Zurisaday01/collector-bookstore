@@ -2,8 +2,11 @@
 
 import GenresTable from '@/components/tables/GenresTable';
 import { Button } from '@/components/ui/button';
+import { useRouter, usePathname } from 'next/navigation';
 
-const page = () => {
+const Page = () => {
+	const router = useRouter();
+	const path = usePathname();
 	return (
 		<section>
 			<div className='flex justify-between items-center gap-2 mb-6'>
@@ -11,7 +14,7 @@ const page = () => {
 					Genres
 				</h1>
 
-				<Button>Add book</Button>
+				<Button onClick={() => router.push(`${path}/create`)}>Add Genre</Button>
 			</div>
 
 			<div>
@@ -20,4 +23,4 @@ const page = () => {
 		</section>
 	);
 };
-export default page;
+export default Page;

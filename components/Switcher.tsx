@@ -24,12 +24,12 @@ const Switcher = () => {
 		setMounted(true);
 	}, []);
 
-	if(!mounted) return <MiniSpinner />;
+	if (!mounted) return <MiniSpinner />;
 
 	return (
 		<div className='flex items-center gap-1'>
 			<Label htmlFor='theme'>
-				<DynamicIcon size={20} name={`${theme === 'dark' ? 'moon' : 'sun'}`} />
+				{/* <DynamicIcon size={20} name={`${theme === 'dark' ? 'moon' : 'sun'}`} /> */}
 			</Label>
 			<Switch
 				defaultChecked={theme === 'dark'}
