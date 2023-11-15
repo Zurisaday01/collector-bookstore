@@ -58,25 +58,30 @@ export const POST = async (req: Request) => {
 			evt.data || {};
 
 		try {
-			const newUser = await fetch(
-				'https://collector-bookstore.vercel.app/api/users',
+			await fetch('https://collector-bookstore.vercel.app/api/users', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					clerkId: id,
+					name: `${first_name} ${last_name}`,
+					email: email_addresses[0].email_address,
+					image: image_url,
+				}),
+			});
+
+			return NextResponse.json(
 				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
+					message: `User created ${{
 						clerkId: id,
 						name: `${first_name} ${last_name}`,
 						email: email_addresses[0].email_address,
 						image: image_url,
-					}),
-				}
+					}}`,
+				},
+				{ status: 201 }
 			);
-
-			console.log('NEW', newUser);
-
-			return NextResponse.json({ message: 'User created' }, { status: 201 });
 		} catch (err) {
 			return NextResponse.json(
 				{ message: `Internal Server Error ${err}` },
