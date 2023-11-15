@@ -1,16 +1,7 @@
 import prisma from '@/lib/prismadb';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 
 // POST /api/users
-
-const userSchema = z.object({
-	clerkId: z.string(),
-	name: z.string(),
-	email: z.string(),
-	image: z.string(),
-});
-
 export const POST = async (request: NextRequest) => {
 	const body = await request.json();
 	const newUser = await prisma.user.create({

@@ -2,6 +2,7 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prismadb';
 
 // User actions
 
@@ -58,30 +59,16 @@ export const POST = async (req: Request) => {
 			evt.data || {};
 
 		try {
-			await fetch('https://collector-bookstore.vercel.app/api/users', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
+			await prisma.user.create({
+				data: {
 					clerkId: id,
 					name: `${first_name} ${last_name}`,
 					email: email_addresses[0].email_address,
 					image: image_url,
-				}),
+				},
 			});
 
-			return NextResponse.json(
-				{
-					message: `User created ${JSON.stringify({
-						clerkId: id,
-						name: `${first_name} ${last_name}`,
-						email: email_addresses[0].email_address,
-						image: image_url,
-					})}`,
-				},
-				{ status: 201 }
-			);
+			return NextResponse.json({ message: 'User created' }, { status: 201 });
 		} catch (err) {
 			return NextResponse.json(
 				{ message: `Internal Server Error ${err}` },
